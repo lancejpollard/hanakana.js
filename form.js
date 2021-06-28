@@ -341,6 +341,7 @@ const list = [
   { text: "g", code: "\u0130", name: 'G sound' },
   { text: "'", code: "\u01b0", name: 'Lack of sound, glottal stop' },
   { text: "\"", code: "\u01b2", name: 'Arabic voiced pharyngeal fricative' },
+  { text: "d~", code: "\u00d1", name: 'Arabic d sound' },
   { text: "d!", code: "\u006c", name: 'Ejective d sound' },
   { text: "d?", code: "\u0068", name: 'Implosive d sound' },
   { text: "d*", code: "\u0064", name: 'Click d sound' },
