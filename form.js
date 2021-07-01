@@ -337,7 +337,7 @@ const list = [
   { text: "q", code: "\u0160", name: 'Ng sound' },
   { text: "g?", code: "\u0138", name: 'Implosive g sound' },
   { text: "g.", code: "\u135a", name: 'Stop g sound' },
-  { text: "g_", code: "\u1357", name: 'Tense g sound' },
+  { text: "g@", code: "\u1357", name: 'Tense g sound' },
   { text: "g", code: "\u0130", name: 'G sound' },
   { text: "'", code: "\u01b0", name: 'Lack of sound, glottal stop' },
   { text: "\"", code: "\u01b2", name: 'Arabic voiced pharyngeal fricative' },
@@ -347,31 +347,31 @@ const list = [
   { text: "d*", code: "\u0064", name: 'Click d sound' },
   { text: "d+", code: "\u0062", name: 'Indian d sound' },
   { text: "d.", code: "\u123a", name: 'Stop d sound' },
-  { text: "d_", code: "\u1237", name: 'Tense d sound' },
+  { text: "d@", code: "\u1237", name: 'Tense d sound' },
   { text: "d", code: "\u0060", name: 'D sound' },
   { text: "b?", code: "\u0048", name: 'Implosive b sound' },
   { text: "b!", code: "\u004c", name: 'Ejective b sound' },
   { text: "b.", code: "\u121a", name: 'Stop b sound' },
-  { text: "b_", code: "\u1217", name: 'Tense b sound' },
+  { text: "b@", code: "\u1217", name: 'Tense b sound' },
   { text: "b", code: "\u0040", name: 'B sound' },
   { text: "p!", code: "\u0038", name: 'Ejective p sound' },
   { text: "p*", code: "\u0034", name: 'Click p sound' },
   { text: "p.", code: "\u120a", name: 'Stop p sound' },
-  { text: "p_", code: "\u1207", name: 'Tense p sound' },
+  { text: "p@", code: "\u1207", name: 'Tense p sound' },
   { text: "p", code: "\u0030", name: 'P sound' },
   { text: "t+", code: "\u00d2", name: 'Indian t sound' },
   { text: "t!", code: "\u00dc", name: 'Ejective t sound' },
   { text: "t~", code: "\u00d1", name: 'Arabic t sound' },
   { text: "t*", code: "\u00d4", name: 'Click t sound' },
   { text: "t.", code: "\u129a", name: 'Stop t sound' },
-  { text: "t_", code: "\u1297", name: 'Tense t sound' },
+  { text: "t@", code: "\u1297", name: 'Tense t sound' },
   { text: "t", code: "\u00d0", name: 'T sound' },
   { text: "k!", code: "\u0058", name: 'Ejective k sound' },
   { text: "k*", code: "\u0054", name: 'Click k sound' },
   { text: "k+", code: "\u0052", name: 'Arabic Q sound' },
   { text: "k+!", code: "\u0059", name: 'Arabic ejective Q sound' },
   { text: "k.", code: "\u122a", name: 'Stop k sound' },
-  { text: "k_", code: "\u1227", name: 'Tense k sound' },
+  { text: "k@", code: "\u1227", name: 'Tense k sound' },
   { text: "k", code: "\u0050", name: 'K sound' },
   { text: "h+", code: "\u0122", name: 'Hebrew harsh h sound' },
   { text: "h~", code: "\u0121", name: 'Arabic h sound' },
@@ -381,7 +381,7 @@ const list = [
   { text: "s+", code: "\u0072", name: 'Navajo s sound' },
   { text: "s~", code: "\u0071", name: 'Arabic s sound' },
   { text: "s.", code: "\u124a", name: 'Stop s sound' },
-  { text: "s_", code: "\u1247", name: 'Tense s sound' },
+  { text: "s@", code: "\u1247", name: 'Tense s sound' },
   { text: "s", code: "\u0070", name: 'S sound' },
   { text: "f+", code: "\u00c2", name: 'Labial f sound' },
   { text: "f", code: "\u00c0", name: 'f sound' },
@@ -403,13 +403,13 @@ const list = [
   { text: "r", code: "\u01a0", name: 'English r sound' },
   { text: "x+", code: "\u0192", name: 'Indian sh sound' },
   { text: "x.", code: "\u141a", name: 'Stop sh sound' },
-  { text: "x_", code: "\u1417", name: 'Tense sh sound' },
+  { text: "x@", code: "\u1417", name: 'Tense sh sound' },
   { text: "x", code: "\u0190", name: 'Sh sound' },
   { text: "w", code: "\u0110", name: 'W sound' },
   { text: "y", code: "\u0180", name: 'Y sound' },
   { text: "y+", code: "\u0182", name: 'Slight y sound' },
   { text: " ", code: "\u0020", name: 'Hanakana Space' },
-  { text: "^", code: "\u0021", name: 'Hanakana Period' },
+  { text: ".", code: "\u0021", name: 'Hanakana Period' },
   { text: ",", code: "\u0024", name: 'Hanakana comma' },
   { text: "(", code: "\u0023", name: 'Hanakana opening parenthesis' },
   { text: ")", code: "\u002b", name: 'Hanakana closing parenthesis' },
@@ -424,11 +424,11 @@ const list = [
 
 const look = {}
 list.forEach(({ text }) => {
-  look[text] = '^' + text.replace(/[\(\)\*\!\?\^\+\_\.\[\]\|\\\/]/g, _ => `\\^{_}`)
+  look[text] = '^' + text.replace(/[\(\)\*\!\?\^\+\_\.\[\]\|\\\/]/g, _ => `\\${_}`)
 })
 
 const form = text => {
-  let remaining = text.replace(/([A-Z])/g, (_, ^1) => `^{^1.toLowerCase()}+`)
+  let remaining = text.replace(/([A-Z])/g, (_, $1) => `${$1.toLowerCase()}+`)
   let output = []
   a:
   while (remaining.length) {
@@ -443,7 +443,7 @@ const form = text => {
         continue a
       }
     }
-    throw new Error(`^{remaining}:^{text}`)
+    throw new Error(`${remaining}:${text}`)
   }
   return output.join('')
 }
