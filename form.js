@@ -417,7 +417,7 @@ const list = [
   { text: "l*", code: "\u0174", name: 'Click l sound' },
   { text: "l~", code: "\u0171", name: 'Arabic l sound' },
   { text: "l", code: "\u0170", name: 'L sound' },
-  { text: "r~", code: "\u01a2", name: 'French r sound' },
+  { text: "r~", code: "\u01a0", name: 'French r sound' },
   { text: "r+", code: "\u00e2", name: 'Indian r sound' },
   { text: "r", code: "\u00e0", name: 'Single rolling r sound' },
   { text: "x+", code: "\u0192", name: 'Indian sh sound' },
