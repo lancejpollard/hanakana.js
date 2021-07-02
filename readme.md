@@ -16,59 +16,115 @@
 
 <h3 id="summary">Summary</h3>
 
-Tone script (esoteric name _Hanákana_) is a Universal Writing System (UWS), capable of representing all human voice sounds in a concise and readable script. This means you can write any language in tone script script (constructed language or natural language) and read it without having to learn that language's specific quirks. Tone script is a sound-based script like the [Ancient Runes](https://en.wikipedia.org/wiki/Runes), which means when you read see a symbol/letter, you know exactly how it is pronounced. There are no weird edge cases or specific words for which you have to memorize the sound. You simply learn the script and can pronounce the words and texts. You can find how to pronounce the letters in the [PDF guide](https://github.com/mountbuild/tone-script/blob/build/guide.pdf) or partly on [leaf.surf](https://leaf.surf). Print out the [exercises](https://github.com/mountbuild/tone-script/blob/build/exercise.pdf) to learn how to write and pronounce them too! Try typing it interactively [here](https://mountbuild.github.io/tone-script)!
+Tone script (esoteric name Hanákana) is a Universal Writing System (UWS), capable of representing all human voice sounds in a concise and readable script. This means you can write any language in tone script script (constructed language or natural language) and read it without having to learn that language's specific quirks.
+
+Tone script is a sound-based script like the [Ancient Runes](https://en.wikipedia.org/wiki/Runes), which means when you read see a symbol/letter, you know exactly how it is pronounced. There are no weird edge cases or specific words for which you have to memorize the sound. You simply learn the script and can pronounce the words and texts.
+
+You can find how to pronounce the letters in the [PDF guide](https://github.com/mountbuild/tone-script/blob/build/guide.pdf) or partly on [leaf.surf](https://leaf.surf). Print out the [exercises](https://github.com/mountbuild/tone-script/blob/build/exercise.pdf) to learn how to write and pronounce them too! Try typing it interactively [here](https://mountbuild.github.io/tone-script)!
 
 <p align="center">
   <img src="https://github.com/mountbuild/tone-script/blob/build/example.jpg?raw=true" />
 </p>
 
-You may note that Linguistics also has the International Phonetic Alphabet ([IPA](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet)), which seems to accomplish a similar thing. But the IPA is not for writing anything but the most detailed pronunciation guides, not for writing sentences or long texts. Tone script is meant for the later, for writing like you would in a normal language. The ASCII encoding is mapped to IPA for your knowledge in the [call script](https://github.com/mountbuild/call-script). Ideally, tone script would be included in the Unicode standard. But [that is unlikely](http://www.unicode.org/pending/proposals.html) until it is used widely. We have suggested it be used as a writing system [on Mars](https://twitter.com/mountbuild/status/1372723474741927938) 😂. Here is a [book](https://www.amazon.com/32-Languages-Words-Scripts-Multilingual/dp/1951702638) using it as well.
+You may note that Linguistics also has the International Phonetic Alphabet ([IPA](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet)), which seems to accomplish a similar thing. But the IPA is not for writing anything but the most detailed pronunciation guides, not for writing sentences or long texts. Tone script is meant for the later, for writing like you would in a normal language.
+
+The ASCII encoding is mapped to IPA for your knowledge in the [call script](https://github.com/mountbuild/call-script). Ideally, tone script would be included in the Unicode standard, but [that is unlikely](http://www.unicode.org/pending/proposals.html). We have suggested it be used as a writing system [on Mars](https://twitter.com/mountbuild/status/1372723474741927938) 😂. Here is a [book](https://www.amazon.com/32-Languages-Words-Scripts-Multilingual/dp/1951702638) using it as well.
 
 <br/>
 <br/>
 
 <p align="center"><a href="https://www.amazon.com/32-Languages-Words-Scripts-Multilingual/dp/1951702638"><img width="160" src="https://github.com/mountbuild/tone-script/blob/build/book.png?raw=true"/></a></p>
 
+It doesn't necessarily play well with dyslexia, which might find the highly symmetric patterns difficult. We think there are far better methods of learning outside of writing systems than trying to invent the perfect script for all cases. To most natural languages, dyslexia is an unsolved problem. We instead strive to make a minimal seed from which knowledge can be modelled from primitive parts, memorized, and then used to derive further knowledge.
+
+Tone Script is also a monospaced font, to be used eventually for programming. All sounds are derived from 3 base shapes, that for `i`, `a`, and `u`. Rotating and extending tails on them gives you the remaining base letters. Then adding dots to them extends the sound of the base letter slightly. From this it should be straightforward to memorize how to pronounce words in a day or so, and from there you can read and write any language pretty well.
+
 <h3 id="sounds-32">The 32 Sounds</h3>
 
 These are the 32 main sounds. Everything else are variations of these sounds. These "variations" are accomplished in a structured way, see the [guide](https://github.com/mountbuild/tone-script/blob/build/guide.pdf). Indic retroflex consonants are added with a dot on the tailless side. Arabic sounds are added with a dot on the tailed side usually. Clicks are mapped to the closest mouth-position-oriented sound. Ejectives and implosives are simply added with accent marks. Etc.
 
+Alphabetical order is this:
+
 ```
-beat i
-lake e
-call a
-home o
-tune u
-
-kick i
-mess e
-last a
-duck u
-cook o
-
-moon m
-note n
-ring ng
-game g
-dock d
-boat b
-team t
-pick p
-king k
-hook h
-seek s
-fish f
-vote v
-zone z
-yell y
-wind w
-thud th
-ship sh
-rule r
-loom l
-
-then th
-joke j (sure as in measure)
+i
+a
+u
+e
+E
+U
+I
+o
+A
+O
+o~
+u~ (r)
+e~
+i~
+a~
+ma
+na
+qi
+ga
+da
+bi
+pa
+tu
+ki
+hu
+lu
+wi
+fa
+si
+Ci
+za
+vu
+ya
+xu
+ri
+cu
+ji
+'a
+r~i
+La
+Ni
+Xa
+Du
+Ju
+Ti
+Ra
+Ha
+Ku
+Va
+Fu
+Sa
+Zi
+"u
+l~a
+d~a
+s~u
+c+~a
+t~u
+b?a
+g?u
+ap.
+at.
+ak.
+p!
+t!
+k!
+s!
+x!
+T!
+K!
+p@
+t@
+k@
+s@
+d*
+l*
+p*
+t*
+k*
 ```
 
 <p align="center">
@@ -90,7 +146,7 @@ tone-script use tone-script.otf
 To print tone-script-font-ready text in the terminal, use:
 
 ```bash
-tone-script print "he+lo wrld"
+tone-script print "hElo wrld"
 tone-script print "$(<story.txt)"
 ```
 
@@ -115,21 +171,21 @@ npm install @mountbuild/tone-script
 Then in JavaScript or Node.js land:
 
 ```js
-const toTone = require('@mountbuild/tone-script')
+const tone = require('@mountbuild/tone-script')
 
-document.body.innerHTML = toTone('he+lo wrld')
+document.body.innerHTML = tone('hElow wOrld')
 ```
 
 Here is how you might use it more robustly:
 
 ```js
-const lines = `fru+m ma+unt yu faind c+u+ stoun, ritxiq tu c+u+ klaud
-no we+r an rc du yu fil c+u+ pa+wr u+v netxr al u+ra+und
-wi+c c+u+ klaud so klos, yu ka+n si, tu+tx, a+nd test
-fidiq yor e+nrdji tu c+u+ stoun wi+c hest
-ma+unt holdz i+t xep, laik c+u+ sikri+t bal`
+const lines = `frUm mAunt yu faind CU stown, ritxiq tu CU klAwd
+no wEr an Orc duw yuw fil CU pAwOr Uv neytxOr al UrAwnd
+wIc CU klAwd sow klows, yuw kAn si, tUtx, En teyst
+fidiq yor EnOrdji tu CU stown wIc heyst
+mAwnt holdz Its xeyp, layk CU sikrIt bal`
   .split(/\n+/)
-  .map(line => line.split(/\s+/).map(toTone).join(' '))
+  .map(line => line.split(/\s+/).map(tone).join(' '))
   .join('\n')
 
 document.body.innerHTML = lines.split(/\n/)
@@ -181,7 +237,7 @@ limitations under the License.
 
 <h3 id="mount">Mount</h3>
 
-Tone script is being developed by the folks at [Mount](https://mount.build), a California-based project for helping humanity master information and computation. Mount started off in the winter of 2008 as a spark of an idea, to forming a company 10 years later in the winter of 2018, to a seed of a project just beginning its development phases. Mount funds tone script's development. It is entirely bootstrapped by working full time and running [Etsy](https://etsy.com/shop/mountbuild) and [Amazon](https://www.amazon.com/s?rh=p_27%3AMount+Build) shops. Also find us on [Facebook](https://www.facebook.com/mountbuild), [Twitter](https://twitter.com/mountbuild), and [LinkedIn](https://www.linkedin.com/company/mountbuild). Check out our other GitHub projects as well!
+Tone script is being developed by the folks at [Mount](https://mount.build), a California-based project for helping humanity master information and computation. Mount started off in the winter of 2008 as a spark of an idea, to forming a company 10 years later in the winter of 2018, to a seed of a project just beginning its development phases. Mount funds tone script's development with [Etsy](https://etsy.com/shop/mountbuild) and [Amazon](https://www.amazon.com/s?rh=p_27%3AMount+Build) shops. Also find us on [Facebook](https://www.facebook.com/mountbuild), [Twitter](https://twitter.com/mountbuild), and [LinkedIn](https://www.linkedin.com/company/mountbuild). Check out our other GitHub projects as well!
 
 <br/>
 <br/>
