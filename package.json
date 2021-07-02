@@ -1,13 +1,12 @@
 {
   "name": "@mountbuild/tone-script",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "main": "form.js",
   "bin": {
     "tone-script": "bin/index.js"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "puppeteer": "^10.1.0"
+    "express": "^4.17.1"
   },
   "files": [
     "form.js",
