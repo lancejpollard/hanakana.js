@@ -39,6 +39,10 @@ It doesn't necessarily play well with dyslexia, which might find the highly symm
 
 Tone Script is also a monospaced font, to be used eventually for programming. All sounds are derived from 3 base shapes, that for `i`, `a`, and `u`. Rotating and extending tails on them gives you the remaining base letters. Then adding dots to them extends the sound of the base letter slightly. From this it should be straightforward to memorize how to pronounce words in a day or so, and from there you can read and write any language pretty well.
 
+<p align="center">
+  <img src="https://github.com/mountbuild/tone-script/blob/build/transform.gif?raw=true" height="300" />
+</p>
+
 <h3 id="sounds-32">The Alphabet</h3>
 
 These are the 39 main sounds. Everything else are variations of these sounds. These "variations" are accomplished in a structured way, see the [guide](https://github.com/mountbuild/tone-script/blob/build/guide.pdf). Indic retroflex consonants are added with a dot on the tailless side. Arabic sounds are added with a dot on the tailed side usually. Clicks are mapped to the closest mouth-position-oriented sound. Ejectives and implosives are simply added with accent marks. Etc.
@@ -127,8 +131,36 @@ t*
 k*
 ```
 
+## Main Symbols
+
+Here are the consonants and vowels in their main form (without tone or stress markers).
+
 <p align="center">
-  <img src="https://github.com/mountbuild/tone-script/blob/build/transform.gif?raw=true" height="300" />
+  <img src="https://github.com/mountbuild/tone-script/blob/build/symbols.png?raw=true" />
+</p>
+
+Note, to add "aspiration" to a sound, you add the corresponding "h" symbol after the main symbol. To add nasalization to a vowel, you add a two dots below the vowel. Long vowels are made by writing two vowel letters.
+
+## Phonology
+
+Here is the consonant IPA phonology chart mapping.
+
+<p align="center">
+  <img src="https://github.com/mountbuild/tone-script/blob/build/phonology.png?raw=true" />
+</p>
+
+## Example Words
+
+<p align="center">
+  <img src="https://github.com/mountbuild/tone-script/blob/build/words.png?raw=true" />
+</p>
+
+## Vowel Symbols
+
+Here are all the possible vowel combinations. The combination elements are: tone (1, 2, 3, 4, or 5, 1 being the lowest, 5 being the highest), nasality, and stress. In languages with only 3 tones you can just use tones 2, 3, and 4, but in languages with 5 tones you need all 5. Nasality is done with two dots under the vowel. Stress is done with one dot above the vowel. Low tones are on the left, high tones on the right.
+
+<p align="center">
+  <img src="https://github.com/mountbuild/tone-script/blob/build/vowels.png?raw=true" />
 </p>
 
 ## Usage
@@ -192,32 +224,6 @@ document.body.innerHTML = lines.split(/\n/)
   .map(line => `<div>${line}</div>`)
   .join('\n')
 ```
-
-## Main Symbols
-
-Here are the consonants and vowels in their main form (without tone or stress markers).
-
-<p align="center">
-  <img src="https://github.com/mountbuild/tone-script/blob/build/symbols.png?raw=true" />
-</p>
-
-Note, to add "aspiration" to a sound, you add the corresponding "h" symbol after the main symbol. To add nasalization to a vowel, you add a two dots below the vowel. Long vowels are made by writing two vowel letters.
-
-## Phonology
-
-Here is the consonant IPA phonology chart mapping.
-
-<p align="center">
-  <img src="https://github.com/mountbuild/tone-script/blob/build/phonology.png?raw=true" />
-</p>
-
-## Vowel Symbols
-
-Here are all the possible vowel combinations. The combination elements are: tone (1, 2, 3, 4, or 5, 1 being the lowest, 5 being the highest), nasality, and stress. In languages with only 3 tones you can just use tones 2, 3, and 4, but in languages with 5 tones you need all 5. Nasality is done with two dots under the vowel. Stress is done with one dot above the vowel. Low tones are on the left, high tones on the right.
-
-<p align="center">
-  <img src="https://github.com/mountbuild/tone-script/blob/build/vowels.png?raw=true" />
-</p>
 
 <h3 id="license">License</h3>
 
