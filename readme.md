@@ -43,7 +43,7 @@ Tone Script is also a monospaced font, to be used eventually for programming. Al
   <img src="https://github.com/mountbuild/tone-script/blob/build/transform.gif?raw=true" height="300" />
 </p>
 
-<h3 id="sounds-32">The Alphabet</h3>
+<h3>The Alphabet</h3>
 
 These are the 39 main sounds. Everything else are variations of these sounds. These "variations" are accomplished in a structured way, see the [guide](https://github.com/mountbuild/tone-script/blob/build/guide.pdf). Indic retroflex consonants are added with a dot on the tailless side. Arabic sounds are added with a dot on the tailed side usually. Clicks are mapped to the closest mouth-position-oriented sound. Ejectives and implosives are simply added with accent marks. Etc.
 
@@ -60,11 +60,11 @@ I
 o
 A
 O
-o~
-u~ (r)
-e~
-i~
-a~
+o#
+u#
+e#
+i#
+a#
 ma
 na
 qi
@@ -87,8 +87,15 @@ xu
 ri
 cu
 ji
+Qi
+Sa
+Zi
 'a
-r~i
+```
+
+Everything else is a modification on this base. Here are many more sounds.
+
+```
 La
 Ni
 Xa
@@ -100,8 +107,6 @@ Ha
 Ku
 Va
 Fu
-Sa
-Zi
 "u
 l~a
 d~a

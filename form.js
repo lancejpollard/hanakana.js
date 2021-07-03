@@ -423,7 +423,7 @@ const list = [
 ]
 
 const tree = st.fork(list)
-const form = text => st.form(st.norm(text), tree)
+const form = text => st.form(text, tree)
 
 form.list = list
 
