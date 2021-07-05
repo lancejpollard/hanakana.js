@@ -87,7 +87,7 @@ xu
 ri
 cu
 ji
-Qi
+Qu
 Sa
 Zi
 'a
