@@ -20,7 +20,7 @@ Tone script (esoteric name Hanákana) is a Universal Writing System (UWS), capab
 
 Tone script is a sound-based script like the [Ancient Runes](https://en.wikipedia.org/wiki/Runes), which means when you read see a symbol/letter, you know exactly how it is pronounced. There are no weird edge cases or specific words for which you have to memorize the sound. You simply learn the script and can pronounce the words and texts.
 
-You can find how to pronounce the letters in the [PDF guide](https://github.com/mountbuild/tone-script/blob/build/guide.pdf) or partly on [leaf.surf](https://leaf.surf). Print out the [exercises](https://github.com/mountbuild/tone-script/blob/build/exercise.pdf) to learn how to write and pronounce them too! Try typing it interactively [here](https://mountbuild.github.io/tone-script)!
+You can find how to pronounce the letters in the [PDF guide](https://github.com/mountbuild/tone-script/blob/build/guide.pdf) or partly on [leaf.surf](https://leaf.surf). Print out the [exercises](https://github.com/mountbuild/tone-script/blob/build/exercise.pdf) to learn how to write and pronounce them too!
 
 <p align="center">
   <img src="https://github.com/mountbuild/tone-script/blob/build/example.jpg?raw=true" />
@@ -143,8 +143,6 @@ Here are the consonants and vowels in their main form (without tone or stress ma
 <p align="center">
   <img src="https://github.com/mountbuild/tone-script/blob/build/symbols.png?raw=true" />
 </p>
-
-Note, to add "aspiration" to a sound, you add the corresponding "h" symbol after the main symbol. To add nasalization to a vowel, you add a two dots below the vowel. Long vowels are made by writing two vowel letters.
 
 ## Sound Variation
 
