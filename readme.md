@@ -146,6 +146,14 @@ Here are the consonants and vowels in their main form (without tone or stress ma
 
 Note, to add "aspiration" to a sound, you add the corresponding "h" symbol after the main symbol. To add nasalization to a vowel, you add a two dots below the vowel. Long vowels are made by writing two vowel letters.
 
+## Sound Variation
+
+The `W` is for labialization, `Y` for palatalization, `h` for aspiration, `Q~` for phayrngeal stop, `~` for pharyngealization, `M` for nasalization, and `$` for non-aspirated stop.
+
+<p align="center">
+  <img src="https://github.com/mountbuild/tone-script/blob/build/variations.png?raw=true" />
+</p>
+
 ## Phonology
 
 Here is the consonant IPA phonology chart mapping.
