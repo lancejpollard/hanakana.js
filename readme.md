@@ -19,6 +19,12 @@
 Tone script (esoteric name Hanákana) is a Universal Writing System (UWS), capable of representing all human voice sounds in a concise and readable script. This means you can write any language in tone script script (constructed language or natural language) and read it without having to learn that language's specific quirks. [See some example made up words](https://mountbuild.github.io/tune-speech/words). Or see some words from specific languages in our lexicons.
 
 - [Mandarin Chinese](https://mountbuild.github.io/tone-script/lexicon/mandarin-chinese)
+- [Inuktitut](https://mountbuild.github.io/tone-script/lexicon/inuktitut)
+- [Hebrew](https://mountbuild.github.io/tone-script/lexicon/hebrew)
+- [Plains Cree](https://mountbuild.github.io/tone-script/lexicon/plains-cree)
+- [Assyrian](https://mountbuild.github.io/tone-script/lexicon/assyrian)
+- [Nuxalk](https://mountbuild.github.io/tone-script/lexicon/nuxalk)
+- [Tibetan](https://mountbuild.github.io/tone-script/lexicon/tibetan)
 
 Tone script is a sound-based script like the [Ancient Runes](https://en.wikipedia.org/wiki/Runes), which means when you read see a symbol/letter, you know exactly how it is pronounced. There are no weird edge cases or specific words for which you have to memorize the sound. You simply learn the script and can pronounce the words and texts.
 
