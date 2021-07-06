@@ -14,9 +14,11 @@
 <br/>
 <br/>
 
-<h3 id="summary">Summary</h3>
+## Summary
 
-Tone script (esoteric name Hanákana) is a Universal Writing System (UWS), capable of representing all human voice sounds in a concise and readable script. This means you can write any language in tone script script (constructed language or natural language) and read it without having to learn that language's specific quirks. [See some example made up words](https://mountbuild.github.io/tune-speech/words).
+Tone script (esoteric name Hanákana) is a Universal Writing System (UWS), capable of representing all human voice sounds in a concise and readable script. This means you can write any language in tone script script (constructed language or natural language) and read it without having to learn that language's specific quirks. [See some example made up words](https://mountbuild.github.io/tune-speech/words). Or see some words from specific languages in our lexicons.
+
+- [Mandarin Chinese](https://mountbuild.github.io/tone-script/lexicon/mandarin-chinese)
 
 Tone script is a sound-based script like the [Ancient Runes](https://en.wikipedia.org/wiki/Runes), which means when you read see a symbol/letter, you know exactly how it is pronounced. There are no weird edge cases or specific words for which you have to memorize the sound. You simply learn the script and can pronounce the words and texts.
 
@@ -43,7 +45,7 @@ Tone Script is also a monospaced font, to be used eventually for programming. Al
   <img src="https://github.com/mountbuild/tone-script/blob/build/transform.gif?raw=true" height="300" />
 </p>
 
-<h3>The Alphabet</h3>
+## The Alphabet
 
 These are the main sounds. Everything else are variations of these sounds. These "variations" are accomplished in a structured way, see the [guide](https://github.com/mountbuild/tone-script/blob/build/guide.pdf). Indic retroflex consonants are added with a dot on the tailless side. Arabic sounds are added with a dot on the tailed side usually. Clicks are mapped to the closest mouth-position-oriented sound. Ejectives and implosives are simply added with accent marks. Etc.
 

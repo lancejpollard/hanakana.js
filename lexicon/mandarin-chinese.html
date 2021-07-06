@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      @font-face {
+        font-family: Hanakana;
+        src: url('../font.otf');
+      }
+
+      @font-face {
+        font-family: Noto;
+        src: url('../noto.ttf');
+      }
+
+      .list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #content {
+        width: 800px;
+        background: #fafafa;
+        padding: 20px;
+      }
+
+      .row {
+        padding: 20px;
+      }
+
+      .row > * {
+        display: block;
+      }
+
+      .row:nth-child(2n + 1) {
+        background: #fafafa;
+      }
+
+      .row:nth-child(2n) {
+        background: #fff;
+      }
+
+      .hanakana {
+        font-size: 80px;
+        font-family: Hanakana;
+        width: 100px;
+        position: relative;
+        top: -6px;
+      }
+
+      .ascii {
+        font-size: 24px;
+        font-family: Noto;
+        opacity: 0.4;
+        padding-bottom: 10px;
+        display: block;
+        padding-bottom: 20px;
+      }
+
+      .description {
+        display: block;
+        font-size: 18px;
+        padding-top: 10px;
+        font-family: Noto;
+        opacity: 0.4;
+        padding-bottom: 20px;
+      }
+
+      .native {
+        font-size: 32px;
+        font-family: Noto;
+        opacity: 0.7;
+        padding-bottom: 10px;
+        display: block;
+        padding-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='list'><div id='content'></div></div>
+    <script>
+      const TABLE = [{"native1":"的","native2":"de","pronunciation":"tO","call":"tọ","tone":"ÐӀ"},{"native1":"一","native2":"yī","pronunciation":"yi+","call":"yı́","tone":"ƀѸ"},{"native1":"是","native2":"shì","pronunciation":"xi+i-","call":"xı́ı̀","tone":"ƐѸѴ"},{"native1":"不","native2":"bù","pronunciation":"pu+u-","call":"púù","tone":"0ϸϴ"},{"native1":"了","native2":"le","pronunciation":"lO","call":"lọ","tone":"ŰӀ"},{"native1":"人","native2":"rén","pronunciation":"rUU+n","call":"rụụ́n","tone":"àҠҨŀ"},{"native1":"我","native2":"wǒ","pronunciation":"wwo-","call":"wwò","tone":"ĐĐӤ"},{"native1":"在","native2":"zài","pronunciation":"tsa+a-i","call":"tsáàı","tone":"ÐpԈԄѰ"},{"native1":"有","native2":"yǒu","pronunciation":"yo-u","call":"yòu","tone":"ƀӤϰ"},{"native1":"他","native2":"tā","pronunciation":"tha+","call":"thá","tone":"ÐĠԈ"},{"native1":"这","native2":"zhè","pronunciation":"TXO+O-","call":"ṭx̣ọ́ọ̀","tone":"Òƒӈӄ"},{"native1":"中","native2":"zhōng","pronunciation":"TXO+q","call":"ṭx̣ọ́q","tone":"ÒƒӈŠ"},{"native1":"大","native2":"dà","pronunciation":"ta+a-","call":"táà","tone":"ÐԈԄ"},{"native1":"来","native2":"lái","pronunciation":"laa+i","call":"laáı","tone":"ŰԀԈѰ"},{"native1":"上","native2":"shàng","pronunciation":"xa+a-q","call":"xáàq","tone":"ƐԈԄŠ"},{"native1":"国","native2":"guó","pronunciation":"kwoo+","call":"kwoó","tone":"PĐӠӨ"},{"native1":"个","native2":"gè","pronunciation":"kO+O-","call":"kọ́ọ̀","tone":"Pӈӄ"},{"native1":"到","native2":"dào","pronunciation":"ta+a-u","call":"táàu","tone":"ÐԈԄϰ"},{"native1":"说","native2":"shuō","pronunciation":"xwo+","call":"xwó","tone":"ƐĐӨ"},{"native1":"们","native2":"men","pronunciation":"mUn","call":"mụn","tone":"ĀҠŀ"},{"native1":"为","native2":"wèi","pronunciation":"we+e-i","call":"wéèı","tone":"ĐИДѰ"},{"native1":"子","native2":"zǐ","pronunciation":"tsi-","call":"tsı̀","tone":"ÐpѴ"},{"native1":"和","native2":"hé","pronunciation":"HOO+","call":"ḥọọ́","tone":"ĢӀӈ"},{"native1":"你","native2":"nǐ","pronunciation":"ni-","call":"nı̀","tone":"ŀѴ"},{"native1":"地","native2":"dì","pronunciation":"ti+i-","call":"tı́ı̀","tone":"ÐѸѴ"},{"native1":"出","native2":"chū","pronunciation":"TXhu+","call":"ṭx̣hú","tone":"ÒƒĠϸ"},{"native1":"道","native2":"dào","pronunciation":"ta+a-u","call":"táàu","tone":"ÐԈԄϰ"},{"native1":"也","native2":"yě","pronunciation":"yO-","call":"yọ̀","tone":"ƀӄ"},{"native1":"时","native2":"shí","pronunciation":"xii+","call":"xıı́","tone":"ƐѰѸ"},{"native1":"年","native2":"nián","pronunciation":"nyAA+n","call":"nyạạ́n","tone":"ŀƀΰθŀ"},{"native1":"得","native2":"de","pronunciation":"tO","call":"tọ","tone":"ÐӀ"},{"native1":"就","native2":"jiù","pronunciation":"txyou+u-","call":"txyoúù","tone":"ÐƐƀӠϸϴ"},{"native1":"那","native2":"nà","pronunciation":"na+a-","call":"náà","tone":"ŀԈԄ"},{"native1":"要","native2":"yào","pronunciation":"ya+a-u","call":"yáàu","tone":"ƀԈԄϰ"},{"native1":"下","native2":"xià","pronunciation":"xYya+a-","call":"xẏyáà","tone":"ƐƂƀԈԄ"},{"native1":"以","native2":"yǐ","pronunciation":"yi-","call":"yı̀","tone":"ƀѴ"},{"native1":"生","native2":"shēng","pronunciation":"xU+q","call":"xụ́q","tone":"ƐҨŠ"},{"native1":"会","native2":"huì","pronunciation":"Hwei+i-","call":"ḥweı́ı̀","tone":"ĢĐАѸѴ"},{"native1":"自","native2":"zì","pronunciation":"tsi+i-","call":"tsı́ı̀","tone":"ÐpѸѴ"},{"native1":"着","native2":"zhe","pronunciation":"TXO","call":"ṭx̣ọ","tone":"ÒƒӀ"},{"native1":"去","native2":"qù","pronunciation":"txhu+u-","call":"txhúù","tone":"ÐƐĠϸϴ"},{"native1":"之","native2":"zhī","pronunciation":"TXi+","call":"ṭx̣ı́","tone":"ÒƒѸ"},{"native1":"过","native2":"guò","pronunciation":"kwo+o-","call":"kwóò","tone":"PĐӨӤ"},{"native1":"家","native2":"jiā","pronunciation":"txya+","call":"txyá","tone":"ÐƐƀԈ"},{"native1":"学","native2":"xué","pronunciation":"xYyuee+","call":"xẏyueé","tone":"ƐƂƀϰАИ"},{"native1":"对","native2":"duì","pronunciation":"twei+i-","call":"tweı́ı̀","tone":"ÐĐАѸѴ"},{"native1":"可","native2":"kě","pronunciation":"khO-","call":"khọ̀","tone":"PĠӄ"},{"native1":"她","native2":"tā","pronunciation":"tha+","call":"thá","tone":"ÐĠԈ"},{"native1":"里","native2":"lǐ","pronunciation":"li-","call":"lı̀","tone":"ŰѴ"},{"native1":"后","native2":"hòu","pronunciation":"Ho+o-u","call":"ḥóòu","tone":"ĢӨӤϰ"},{"native1":"小","native2":"xiǎo","pronunciation":"xYya-u","call":"xẏyàu","tone":"ƐƂƀԄϰ"},{"native1":"么","native2":"me","pronunciation":"mO","call":"mọ","tone":"ĀӀ"},{"native1":"心","native2":"xīn","pronunciation":"xYi+n","call":"xẏı́n","tone":"ƐƂѸŀ"},{"native1":"多","native2":"duō","pronunciation":"two+","call":"twó","tone":"ÐĐӨ"},{"native1":"天","native2":"tiān","pronunciation":"thyA+n","call":"thyạ́n","tone":"ÐĠƀθŀ"},{"native1":"而","native2":"ér","pronunciation":"AA+o#","call":"ạạ́o̤","tone":"ΰθΐ"},{"native1":"能","native2":"néng","pronunciation":"nUU+q","call":"nụụ́q","tone":"ŀҠҨŠ"},{"native1":"好","native2":"hǎo","pronunciation":"Ha-u","call":"ḥàu","tone":"ĢԄϰ"},{"native1":"都","native2":"dōu","pronunciation":"to+u","call":"tóu","tone":"ÐӨϰ"},{"native1":"然","native2":"rán","pronunciation":"raa+n","call":"raán","tone":"àԀԈŀ"},{"native1":"没","native2":"méi","pronunciation":"mee+i","call":"meéı","tone":"ĀАИѰ"},{"native1":"日","native2":"rì","pronunciation":"ri+i-","call":"rı́ı̀","tone":"àѸѴ"},{"native1":"于","native2":"yú","pronunciation":"ywuu+","call":"ywuú","tone":"ƀĐϰϸ"},{"native1":"起","native2":"qǐ","pronunciation":"txhi-","call":"txhı̀","tone":"ÐƐĠѴ"},{"native1":"还","native2":"hái","pronunciation":"Haa+i","call":"ḥaáı","tone":"ĢԀԈѰ"},{"native1":"发","native2":"fā","pronunciation":"fa+","call":"fá","tone":"ÀԈ"},{"native1":"成","native2":"chéng","pronunciation":"TXhUU+q","call":"ṭx̣hụụ́q","tone":"ÒƒĠҠҨŠ"},{"native1":"事","native2":"shì","pronunciation":"xi+i-","call":"xı́ı̀","tone":"ƐѸѴ"},{"native1":"只","native2":"zhǐ","pronunciation":"TXi-","call":"ṭx̣ı̀","tone":"ÒƒѴ"},{"native1":"作","native2":"zuò","pronunciation":"tswo+o-","call":"tswóò","tone":"ÐpĐӨӤ"},{"native1":"当","native2":"dāng","pronunciation":"ta+q","call":"táq","tone":"ÐԈŠ"},{"native1":"想","native2":"xiǎng","pronunciation":"xYya-q","call":"xẏyàq","tone":"ƐƂƀԄŠ"},{"native1":"看","native2":"kàn","pronunciation":"kha+a-n","call":"kháàn","tone":"PĠԈԄŀ"},{"native1":"文","native2":"wén","pronunciation":"wUU+n","call":"wụụ́n","tone":"ĐҠҨŀ"},{"native1":"无","native2":"wú","pronunciation":"wuu+","call":"wuú","tone":"Đϰϸ"},{"native1":"开","native2":"kāi","pronunciation":"kha+i","call":"kháı","tone":"PĠԈѰ"},{"native1":"手","native2":"shǒu","pronunciation":"xo-u","call":"xòu","tone":"ƐӤϰ"},{"native1":"十","native2":"shí","pronunciation":"xii+","call":"xıı́","tone":"ƐѰѸ"},{"native1":"用","native2":"yòng","pronunciation":"yO+O-q","call":"yọ́ọ̀q","tone":"ƀӈӄŠ"},{"native1":"主","native2":"zhǔ","pronunciation":"TXu-","call":"ṭx̣ù","tone":"Òƒϴ"},{"native1":"行","native2":"xíng","pronunciation":"xYii+q","call":"xẏıı́q","tone":"ƐƂѰѸŠ"},{"native1":"方","native2":"fāng","pronunciation":"fa+q","call":"fáq","tone":"ÀԈŠ"},{"native1":"又","native2":"yòu","pronunciation":"yo+o-u","call":"yóòu","tone":"ƀӨӤϰ"},{"native1":"如","native2":"rú","pronunciation":"ruu+","call":"ruú","tone":"àϰϸ"},{"native1":"前","native2":"qián","pronunciation":"txhyAA+n","call":"txhyạạ́n","tone":"ÐƐĠƀΰθŀ"},{"native1":"所","native2":"suǒ","pronunciation":"swo-","call":"swò","tone":"pĐӤ"},{"native1":"本","native2":"běn","pronunciation":"pU-n","call":"pụ̀n","tone":"0Ҥŀ"},{"native1":"见","native2":"jiàn","pronunciation":"txyA+A-n","call":"txyạ́ạ̀n","tone":"ÐƐƀθδŀ"},{"native1":"经","native2":"jīng","pronunciation":"txi+q","call":"txı́q","tone":"ÐƐѸŠ"},{"native1":"头","native2":"tóu","pronunciation":"thoo+u","call":"thoóu","tone":"ÐĠӠӨϰ"},{"native1":"面","native2":"miàn","pronunciation":"myA+A-n","call":"myạ́ạ̀n","tone":"Āƀθδŀ"},{"native1":"公","native2":"gōng","pronunciation":"kO+q","call":"kọ́q","tone":"PӈŠ"},{"native1":"同","native2":"tóng","pronunciation":"thOO+q","call":"thọọ́q","tone":"ÐĠӀӈŠ"},{"native1":"三","native2":"sān","pronunciation":"sa+n","call":"sán","tone":"pԈŀ"},{"native1":"已","native2":"yǐ","pronunciation":"yi-","call":"yı̀","tone":"ƀѴ"},{"native1":"老","native2":"lǎo","pronunciation":"la-u","call":"làu","tone":"ŰԄϰ"},{"native1":"从","native2":"cóng","pronunciation":"tshOO+q","call":"tshọọ́q","tone":"ÐpĠӀӈŠ"},{"native1":"动","native2":"dòng","pronunciation":"tO+O-q","call":"tọ́ọ̀q","tone":"ÐӈӄŠ"},{"native1":"两","native2":"liǎng","pronunciation":"lya-q","call":"lyàq","tone":"ŰƀԄŠ"},{"native1":"长","native2":"cháng","pronunciation":"TXhaa+q","call":"ṭx̣haáq","tone":"ÒƒĠԀԈŠ"}]
+      TABLE.forEach(({ native1, native2, pronunciation, call, tone }) => {
+        let c = document.querySelector('#content')
+        let d = document.createElement('div')
+        d.classList.add('row')
+        d.innerHTML = `
+        <span class='hanakana'>${tone}</span>
+        <span class='ascii'>${call}</span>
+        <span class='description'>${pronunciation}</span>
+        <span class='native'>${native1}</span>
+        `
+        c.appendChild(d)
+      })
+
+      window.DONE = true
+    </script>
+  </body>
+</html>
