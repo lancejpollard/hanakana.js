@@ -17,12 +17,15 @@ fs.readdirSync('lexicon')
   .map(({ name, lines }) => {
     const json = lines.map(line => {
       let [native1, native2, pronunciation] = line.split(',')
-      const call = toCall(pronunciation)
-      const tone = toTone(pronunciation)
       if (!pronunciation) {
         pronunciation = native2
+        console.log(pronunciation)
+        const call = pronunciation.split(/\s+/).map(toCall).join(' ')
+        const tone = pronunciation.split(/\s+/).map(toTone).join(' ')
         return { native1, pronunciation, call, tone }
       } else {
+        const call = pronunciation.split(/\s+/).map(toCall).join(' ')
+        const tone = pronunciation.split(/\s+/).map(toTone).join(' ')
         return { native1, native2, pronunciation, call, tone }
       }
     })
