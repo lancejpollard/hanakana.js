@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 1600px;
+      }
+
+      @font-face {
+        font-family: Hanakana;
+        src: url('../font.otf');
+      }
+
+      @font-face {
+        font-family: Noto;
+        src: url('NotoSansMono-Regular.ttf');
+      }
+
+      .list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #content {
+        display: flex;
+        flex-wrap: wrap;
+        background: #fafafa;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .row {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        font-family: Noto;
+      }
+
+      .row:first-child {
+        font-size: 12px;
+        text-align: center;
+      }
+
+      .header-block {
+        display: inline-block;
+        text-align: center;
+        padding: 10px;
+        width: 80px;
+        height: 60px;
+      }
+
+      .header-block:nth-child(2n) {
+        background: white;
+      }
+
+      .header-block:first-child {
+        text-align: right;
+        width: 100px;
+        font-size: 12px;
+      }
+
+      .row:nth-child(2n) .header-block:nth-child(2n + 1) {
+        background: white;
+      }
+
+      .row:nth-child(2n) .header-block:nth-child(2n) {
+        background: #fafafa;
+      }
+
+      .row:first-child .header-block:nth-child(2n) {
+        background: #fafafa;
+      }
+
+      .row .header-block:nth-child(1) {
+        background: #fafafa !important;
+      }
+
+      .hanakana {
+        font-size: 48px;
+        font-family: Hanakana;
+        position: relative;
+        top: 1px;
+        margin-left: 10px;
+      }
+
+      .ascii {
+        opacity: 0.4;
+        position: relative;
+        top: -5px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const t = [[{"k":"manner","v":""},{"k":"bilabial","v":""},{"k":"labiodental","v":""},{"k":"labiolingual","v":""},{"k":"dental","v":""},{"k":"alveolar","v":""},{"k":"postalveolar","v":""},{"k":"retroflex","v":""},{"k":"palatal","v":""},{"k":"velar","v":""},{"k":"uvular","v":""},{"k":"pharyngeal","v":""},{"k":"glottal","v":""}],[{"k":"voiceless nasal","v":""},{"k":"m̥","v":"ĀĠ"},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"n̥","v":"ŀĠ"},{"k":"","v":""},{"k":"ɳ̊","v":"łĠ"},{"k":"ɲ̊","v":"ŀĠƀ"},{"k":"ŋ̊","v":"ŠĠ"},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""}],[{"k":"voiced nasal","v":""},{"k":"m","v":"Ā"},{"k":"ɱ","v":"Ā"},{"k":"n̼","v":"ŀ"},{"k":"","v":""},{"k":"n","v":"ŀ"},{"k":"","v":""},{"k":"ɳ","v":"ł"},{"k":"ɲ","v":"ŀƀ"},{"k":"ŋ","v":"Š"},{"k":"ɴ","v":"Š"},{"k":"","v":""},{"k":"","v":""}],[{"k":"voiceless plosive","v":""},{"k":"p","v":"0"},{"k":"p̪","v":"0"},{"k":"t̼","v":"Ð"},{"k":"t̪","v":"Ð"},{"k":"t","v":"Ð"},{"k":"","v":""},{"k":"ʈ","v":"Ò"},{"k":"c","v":"Pƀ"},{"k":"k","v":"P"},{"k":"q","v":"R"},{"k":"ʡ","v":"ư"},{"k":"ʔ","v":"ư"}],[{"k":"voiceless sibilant affricate","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"t̪s̪","v":"Ðp"},{"k":"ts","v":"Ðp"},{"k":"t̠ʃ","v":"ÐƐ"},{"k":"ʈʂ","v":"Òƒ"},{"k":"tɕ","v":"ÐƐƀ"},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""}],[{"k":"voiced sibilant affricate","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"d̪z̪","v":"`"},{"k":"dz","v":"`"},{"k":"d̠ʒ","v":"`Ő"},{"k":"ɖʐ","v":"bŒ"},{"k":"dʑ","v":"`ƀ"},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""}],[{"k":"voiceless non-sibilant affricate","v":""},{"k":"pɸ","v":"0Â"},{"k":"p̪f","v":"0À"},{"k":"","v":""},{"k":"t̪θ","v":"Ð"},{"k":"tɹ̝̊","v":"Ðà"},{"k":"t̠ɹ̠̊˔","v":"Ðà"},{"k":"","v":""},{"k":"cç","v":"PƐƀ"},{"k":"kx","v":"PĢ"},{"k":"qχ","v":"RĢ"},{"k":"","v":""},{"k":"ʔh","v":"ưĠ"}],[{"k":"voiced non-sibilant affricate","v":""},{"k":"bβ","v":"@ò"},{"k":"b̪v","v":"@ð"},{"k":"","v":""},{"k":"d̪ð","v":"`°"},{"k":"dɹ̝","v":"`à"},{"k":"d̠ɹ̠˔","v":"`à"},{"k":"","v":""},{"k":"ɟʝ","v":"`Őƀ"},{"k":"ɡɣ","v":"İƠƀ"},{"k":"ɢʁ","v":"İƠƀ"},{"k":"ʡʢ","v":"Ĳư"},{"k":"","v":""}],[{"k":"voiceless sibilant fricative","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"s","v":"p"},{"k":"ʃ","v":"Ɛ"},{"k":"ʂ","v":"ƒ"},{"k":"ɕ","v":"Ɛƀ"},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""}],[{"k":"voiced sibilant fricative","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"z","v":""},{"k":"ʒ","v":"Ő"},{"k":"ʐ","v":"Œ"},{"k":"ʑ","v":"Őƀ"},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""}],[{"k":"voiceless non-sibilant fricative","v":""},{"k":"ɸ","v":"Â"},{"k":"f","v":"À"},{"k":"θ̼","v":""},{"k":"θ","v":""},{"k":"θ̠","v":""},{"k":"ɹ̠̊˔","v":"а"},{"k":"","v":""},{"k":"ç","v":"Ġƀ"},{"k":"x","v":"Ģ"},{"k":"χ","v":"Ģ"},{"k":"ħ","v":"Ģ"},{"k":"h","v":"Ġ"}],[{"k":"voiced non-sibilant fricative","v":""},{"k":"β","v":"ò"},{"k":"v","v":"ð"},{"k":"ð̼","v":"°"},{"k":"ð","v":"°"},{"k":"ð̠","v":"°"},{"k":"ɹ̠˔","v":"а"},{"k":"","v":""},{"k":"ʝ","v":"ƀ"},{"k":"ɣ","v":"Ơ"},{"k":"ʁ","v":"Ơ"},{"k":"ʕ","v":"Ĳ"},{"k":"ɦ","v":"Ġ"}],[{"k":"voiced approximant","v":""},{"k":"β̞","v":"ò"},{"k":"ʋ","v":"ò"},{"k":"","v":""},{"k":"ð̞","v":"°"},{"k":"ɹ","v":"а"},{"k":"ɹ̠","v":"а"},{"k":"ɻ","v":"â"},{"k":"j","v":"ƀ"},{"k":"ɰ","v":"Ơ"},{"k":"ʁ̞","v":"Ơ"},{"k":"","v":""},{"k":"ʔ̞","v":"ư"}],[{"k":"voiced tap","v":""},{"k":"ⱱ̟","v":"ð"},{"k":"ⱱ","v":"ð"},{"k":"ɾ̼","v":"à"},{"k":"","v":""},{"k":"ɾ","v":"à"},{"k":"","v":""},{"k":"ɽ","v":"â"},{"k":"","v":""},{"k":"","v":""},{"k":"ɢ̆","v":"İ"},{"k":"ʡ̆","v":"Ĳ"},{"k":"","v":""}],[{"k":"voiceless trill","v":""},{"k":"ʙ̥","v":"@@Ġ"},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"r̥","v":"ààĠ"},{"k":"","v":""},{"k":"ɽ̊r̥","v":"ââĠ"},{"k":"","v":""},{"k":"","v":""},{"k":"ʀ̥","v":"ĢĢ"},{"k":"ʜ","v":"ĢĢ"},{"k":"","v":""}],[{"k":"voiced trill","v":""},{"k":"ʙ","v":"@@"},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"r","v":"à"},{"k":"r̠","v":"à"},{"k":"ɽr","v":"ââ"},{"k":"","v":""},{"k":"","v":""},{"k":"ʀ","v":"ƠƠ"},{"k":"ʢ","v":"Ĳ"},{"k":"","v":""}],[{"k":"voiceless lateral affricate","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"tɬ","v":"Ðr"},{"k":"","v":""},{"k":"ʈɭ̊˔","v":"ÒŲ"},{"k":"cʎ̝̊","v":"PŰƀ"},{"k":"kʟ̝̊","v":"PĢ"},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""}],[{"k":"voiced lateral affricate","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"dɮ","v":"`"},{"k":"","v":""},{"k":"ɖɭ˔","v":"bŲ"},{"k":"ɟʎ̝","v":"İƀ"},{"k":"ɡʟ̝","v":"İĠ"},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""}],[{"k":"voiceless lateral fricative","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"ɬ","v":"r"},{"k":"","v":""},{"k":"ɭ̊˔","v":"r"},{"k":"ʎ̝̊","v":"r"},{"k":"ʟ̝̊","v":"r"},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""}],[{"k":"voiced lateral fricative","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"ɮ","v":""},{"k":"","v":""},{"k":"ɭ˔","v":"r"},{"k":"ʎ̝","v":"r"},{"k":"ʟ̝","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""}],[{"k":"lateral approximant","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"","v":""},{"k":"l̪","v":"Ű"},{"k":"l","v":"Ű"},{"k":"l̠","v":"Ű"},{"k":"ɭ","v":"Ų"},{"k":"ʎ","v":"ƀ"},{"k":"ʟ","v":"Ű"},{"k":"ʟ̠","v":"Ű"},{"k":"","v":""},{"k":"","v":""}]]
+      const table = `
+        <div class='list'><div id='content'>
+        <div class='table'>
+          ${t.map(row => `
+            <div class='row'>
+              ${row.map(block => `
+                <div class='header-block'>
+                  <span class='ascii'>${block.k}</span>
+                  <span class='hanakana'>${block.v}</span>
+                </div>
+              `).join('\n')}
+            </div>
+          `).join('\n')}
+        </div>
+      </div></div>
+      `
+
+      document.write(table)
+
+      window.DONE = true
+    </script>
+  </body>
+</html>

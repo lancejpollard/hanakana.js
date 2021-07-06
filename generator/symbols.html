@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 1200px;
+      }
+
+      @font-face {
+        font-family: Hanakana;
+        src: url('../font.otf');
+      }
+
+      @font-face {
+        font-family: Noto;
+        src: url('../noto.ttf');
+      }
+
+      .list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #content {
+        display: flex;
+        flex-wrap: wrap;
+        width: 1060px;
+        background: #fafafa;
+        padding: 20px;
+      }
+
+      .row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 312px;
+        height: 100px;
+        padding: 20px;
+      }
+
+      .row:nth-child(2n + 1) {
+        background: #fafafa;
+      }
+
+      .row:nth-child(2n) {
+        background: #fff;
+      }
+
+      .hanakana {
+        font-size: 120px;
+        font-family: Hanakana;
+        width: 100px;
+        position: relative;
+        top: -6px;
+        margin-left: 30px;
+      }
+
+      .ascii {
+        font-size: 20px;
+        font-family: Noto;
+        opacity: 0.4;
+        padding-bottom: 10px;
+        display: block;
+      }
+
+      .description {
+        display: block;
+        font-size: 12px;
+        padding-top: 10px;
+        font-family: Noto;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='list'><div id='content'></div></div>
+    <script>
+
+const m = {
+  u: {
+    'grave': '\u0300',
+    'acute': '\u0301',
+    'dacute': '\u030B',
+    'dgrave': '\u030F',
+    'up': '\u0302',
+    'down': '\u030C',
+    'dot': '\u0307',
+    'ddot': '\u0308',
+    'ring': '\u030A',
+    'tilde': '\u0303',
+  },
+  d: {
+    'grave': '\u0316',
+    'acute': '\u0317',
+    'ring': '\u0325',
+    'dot': '\u0323',
+    'ddot': '\u0324',
+    'down': '\u032C',
+    'tilde': '\u0330'
+  }
+}
+
+const ASCII_TO_UNICODE = [
+  { i: 'I~++', o: `ı${m.d.tilde}${m.d.dot}${m.u.dacute}` },
+  { i: 'I~+', o: `ı${m.d.tilde}${m.d.dot}${m.u.acute}` },
+  { i: 'I~--', o: `ı${m.d.tilde}${m.d.dot}${m.u.dgrave}` },
+  { i: 'I~-', o: `ı${m.d.tilde}${m.d.dot}${m.u.grave}` },
+  { i: 'I~', o: `ı${m.d.tilde}${m.d.dot}` },
+  { i: '(I~++)', o: `ı${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.dacute}` },
+  { i: '(I~+)', o: `ı${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.acute}` },
+  { i: '(I~--)', o: `ı${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(I~-)', o: `ı${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.grave}` },
+  { i: '(I~)', o: `ı${m.d.tilde}${m.d.dot}${m.u.dot}` },
+
+  { i: 'I++', o: `ı${m.d.dot}${m.u.dacute}` },
+  { i: 'I+', o: `ı${m.d.dot}${m.u.acute}` },
+  { i: 'I--', o: `ı${m.d.dot}${m.u.dgrave}` },
+  { i: 'I-', o: `ı${m.d.dot}${m.u.grave}` },
+  { i: 'I', o: `ı${m.d.dot}` },
+  { i: '(I++)', o: `ı${m.d.dot}${m.u.dot}${m.u.dacute}` },
+  { i: '(I+)', o: `ı${m.d.dot}${m.u.dot}${m.u.acute}` },
+  { i: '(I--)', o: `ı${m.d.dot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(I-)', o: `ı${m.d.dot}${m.u.dot}${m.u.grave}` },
+  { i: '(I)', o: `ı${m.d.dot}${m.u.dot}` },
+
+  { i: 'i#~++', o: `ı${m.d.tilde}${m.d.ddot}${m.u.dacute}` },
+  { i: 'i#~+', o: `ı${m.d.tilde}${m.d.ddot}${m.u.acute}` },
+  { i: 'i#~--', o: `ı${m.d.tilde}${m.d.ddot}${m.u.dgrave}` },
+  { i: 'i#~-', o: `ı${m.d.tilde}${m.d.ddot}${m.u.grave}` },
+  { i: 'i#~', o: `ı${m.d.tilde}${m.d.ddot}` },
+  { i: '(i#~++)', o: `ı${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.dacute}` },
+  { i: '(i#~+)', o: `ı${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.acute}` },
+  { i: '(i#~--)', o: `ı${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(i#~-)', o: `ı${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.grave}` },
+  { i: '(i#~)', o: `ı${m.d.tilde}${m.d.ddot}${m.u.dot}` },
+
+  { i: 'i#++', o: `ı${m.d.ddot}${m.u.dacute}` },
+  { i: 'i#+', o: `ı${m.d.ddot}${m.u.acute}` },
+  { i: 'i#--', o: `ı${m.d.ddot}${m.u.dgrave}` },
+  { i: 'i#-', o: `ı${m.d.ddot}${m.u.grave}` },
+  { i: 'i#', o: `ı${m.d.ddot}` },
+  { i: '(i#++)', o: `ı${m.d.ddot}${m.u.dot}${m.u.dacute}` },
+  { i: '(i#+)', o: `ı${m.d.ddot}${m.u.dot}${m.u.acute}` },
+  { i: '(i#--)', o: `ı${m.d.ddot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(i#-)', o: `ı${m.d.ddot}${m.u.dot}${m.u.grave}` },
+  { i: '(i#)', o: `ı${m.d.ddot}${m.u.dot}` },
+
+  { i: 'i~++', o: `ı${m.d.tilde}${m.u.dacute}` },
+  { i: 'i~+', o: `ı${m.d.tilde}${m.u.acute}` },
+  { i: 'i~--', o: `ı${m.d.tilde}${m.u.dgrave}` },
+  { i: 'i~-', o: `ı${m.d.tilde}${m.u.grave}` },
+  { i: 'i~', o: `ı${m.d.tilde}` },
+  { i: '(i~++)', o: `ı${m.d.tilde}${m.u.dot}${m.u.dacute}` },
+  { i: '(i~+)', o: `ı${m.d.tilde}${m.u.dot}${m.u.acute}` },
+  { i: '(i~--)', o: `ı${m.d.tilde}${m.u.dot}${m.u.dgrave}` },
+  { i: '(i~-)', o: `ı${m.d.tilde}${m.u.dot}${m.u.grave}` },
+  { i: '(i~)', o: `ı${m.d.tilde}${m.u.dot}` },
+
+  { i: 'i++', o: `ı${m.u.dacute}` },
+  { i: 'i+', o: `ı${m.u.acute}` },
+  { i: 'i--', o: `ı${m.u.dgrave}` },
+  { i: 'i-', o: `ı${m.u.grave}` },
+  { i: 'i', o: `ı` },
+  { i: '(i++)', o: `ı${m.u.dot}${m.u.dacute}` },
+  { i: '(i+)', o: `ı${m.u.dot}${m.u.acute}` },
+  { i: '(i--)', o: `ı${m.u.dot}${m.u.dgrave}` },
+  { i: '(i-)', o: `ı${m.u.dot}${m.u.grave}` },
+  { i: '(i)', o: `ı${m.u.dot}` },
+
+  { i: 'E~++', o: `e${m.d.tilde}${m.d.dot}${m.u.dacute}` },
+  { i: 'E~+', o: `e${m.d.tilde}${m.d.dot}${m.u.acute}` },
+  { i: 'E~--', o: `e${m.d.tilde}${m.d.dot}${m.u.dgrave}` },
+  { i: 'E~-', o: `e${m.d.tilde}${m.d.dot}${m.u.grave}` },
+  { i: 'E~', o: `e${m.d.tilde}${m.d.dot}` },
+  { i: '(E~++)', o: `e${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.dacute}` },
+  { i: '(E~+)', o: `e${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.acute}` },
+  { i: '(E~--)', o: `e${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(E~-)', o: `e${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.grave}` },
+  { i: '(E~)', o: `e${m.d.tilde}${m.d.dot}${m.u.dot}` },
+
+  { i: 'E++', o: `e${m.d.dot}${m.u.dacute}` },
+  { i: 'E+', o: `e${m.d.dot}${m.u.acute}` },
+  { i: 'E--', o: `e${m.d.dot}${m.u.dgrave}` },
+  { i: 'E-', o: `e${m.d.dot}${m.u.grave}` },
+  { i: 'E', o: `e${m.d.dot}` },
+  { i: '(E++)', o: `e${m.d.dot}${m.u.dot}${m.u.dacute}` },
+  { i: '(E+)', o: `e${m.d.dot}${m.u.dot}${m.u.acute}` },
+  { i: '(E--)', o: `e${m.d.dot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(E-)', o: `e${m.d.dot}${m.u.dot}${m.u.grave}` },
+  { i: '(E)', o: `e${m.d.dot}${m.u.dot}` },
+
+  { i: 'e#~++', o: `e${m.d.tilde}${m.d.ddot}${m.u.dacute}` },
+  { i: 'e#~+', o: `e${m.d.tilde}${m.d.ddot}${m.u.acute}` },
+  { i: 'e#~--', o: `e${m.d.tilde}${m.d.ddot}${m.u.dgrave}` },
+  { i: 'e#~-', o: `e${m.d.tilde}${m.d.ddot}${m.u.grave}` },
+  { i: 'e#~', o: `e${m.d.tilde}${m.d.ddot}` },
+  { i: '(e#~++)', o: `e${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.dacute}` },
+  { i: '(e#~+)', o: `e${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.acute}` },
+  { i: '(e#~--)', o: `e${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(e#~-)', o: `e${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.grave}` },
+  { i: '(e#~)', o: `e${m.d.tilde}${m.d.ddot}${m.u.dot}` },
+
+  { i: 'e#++', o: `e${m.d.ddot}${m.u.dacute}` },
+  { i: 'e#+', o: `e${m.d.ddot}${m.u.acute}` },
+  { i: 'e#--', o: `e${m.d.ddot}${m.u.dgrave}` },
+  { i: 'e#-', o: `e${m.d.ddot}${m.u.grave}` },
+  { i: 'e#', o: `e${m.d.ddot}` },
+  { i: '(e#++)', o: `e${m.d.ddot}${m.u.dot}${m.u.dacute}` },
+  { i: '(e#+)', o: `e${m.d.ddot}${m.u.dot}${m.u.acute}` },
+  { i: '(e#--)', o: `e${m.d.ddot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(e#-)', o: `e${m.d.ddot}${m.u.dot}${m.u.grave}` },
+  { i: '(e#)', o: `e${m.d.ddot}${m.u.dot}` },
+
+  { i: 'e~++', o: `e${m.d.tilde}${m.u.dacute}` },
+  { i: 'e~+', o: `e${m.d.tilde}${m.u.acute}` },
+  { i: 'e~--', o: `e${m.d.tilde}${m.u.dgrave}` },
+  { i: 'e~-', o: `e${m.d.tilde}${m.u.grave}` },
+  { i: 'e~', o: `e${m.d.tilde}` },
+  { i: '(e~++)', o: `e${m.d.tilde}${m.u.dot}${m.u.dacute}` },
+  { i: '(e~+)', o: `e${m.d.tilde}${m.u.dot}${m.u.acute}` },
+  { i: '(e~--)', o: `e${m.d.tilde}${m.u.dot}${m.u.dgrave}` },
+  { i: '(e~-)', o: `e${m.d.tilde}${m.u.dot}${m.u.grave}` },
+  { i: '(e~)', o: `e${m.d.tilde}${m.u.dot}` },
+
+  { i: 'e++', o: `e${m.u.dacute}` },
+  { i: 'e+', o: `e${m.u.acute}` },
+  { i: 'e--', o: `e${m.u.dgrave}` },
+  { i: 'e-', o: `e${m.u.grave}` },
+  { i: 'e', o: `e` },
+  { i: '(e++)', o: `e${m.u.dot}${m.u.dacute}` },
+  { i: '(e+)', o: `e${m.u.dot}${m.u.acute}` },
+  { i: '(e--)', o: `e${m.u.dot}${m.u.dgrave}` },
+  { i: '(e-)', o: `e${m.u.dot}${m.u.grave}` },
+  { i: '(e)', o: `e${m.u.dot}` },
+
+  { i: 'A~++', o: `a${m.d.tilde}${m.d.dot}${m.u.dacute}` },
+  { i: 'A~+', o: `a${m.d.tilde}${m.d.dot}${m.u.acute}` },
+  { i: 'A~--', o: `a${m.d.tilde}${m.d.dot}${m.u.dgrave}` },
+  { i: 'A~-', o: `a${m.d.tilde}${m.d.dot}${m.u.grave}` },
+  { i: 'A~', o: `a${m.d.tilde}${m.d.dot}` },
+  { i: '(A~++)', o: `a${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.dacute}` },
+  { i: '(A~+)', o: `a${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.acute}` },
+  { i: '(A~--)', o: `a${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(A~-)', o: `a${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.grave}` },
+  { i: '(A~)', o: `a${m.d.tilde}${m.d.dot}${m.u.dot}` },
+
+  { i: 'A++', o: `a${m.d.dot}${m.u.dacute}` },
+  { i: 'A+', o: `a${m.d.dot}${m.u.acute}` },
+  { i: 'A--', o: `a${m.d.dot}${m.u.dgrave}` },
+  { i: 'A-', o: `a${m.d.dot}${m.u.grave}` },
+  { i: 'A', o: `a${m.d.dot}` },
+  { i: '(A++)', o: `a${m.d.dot}${m.u.dot}${m.u.dacute}` },
+  { i: '(A+)', o: `a${m.d.dot}${m.u.dot}${m.u.acute}` },
+  { i: '(A--)', o: `a${m.d.dot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(A-)', o: `a${m.d.dot}${m.u.dot}${m.u.grave}` },
+  { i: '(A)', o: `a${m.d.dot}${m.u.dot}` },
+
+  { i: 'a#~++', o: `a${m.d.tilde}${m.d.ddot}${m.u.dacute}` },
+  { i: 'a#~+', o: `a${m.d.tilde}${m.d.ddot}${m.u.acute}` },
+  { i: 'a#~--', o: `a${m.d.tilde}${m.d.ddot}${m.u.dgrave}` },
+  { i: 'a#~-', o: `a${m.d.tilde}${m.d.ddot}${m.u.grave}` },
+  { i: 'a#~', o: `a${m.d.tilde}${m.d.ddot}` },
+  { i: '(a#~++)', o: `a${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.dacute}` },
+  { i: '(a#~+)', o: `a${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.acute}` },
+  { i: '(a#~--)', o: `a${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(a#~-)', o: `a${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.grave}` },
+  { i: '(a#~)', o: `a${m.d.tilde}${m.d.ddot}${m.u.dot}` },
+
+  { i: 'a#++', o: `a${m.d.ddot}${m.u.dacute}` },
+  { i: 'a#+', o: `a${m.d.ddot}${m.u.acute}` },
+  { i: 'a#--', o: `a${m.d.ddot}${m.u.dgrave}` },
+  { i: 'a#-', o: `a${m.d.ddot}${m.u.grave}` },
+  { i: 'a#', o: `a${m.d.ddot}` },
+  { i: '(a#++)', o: `a${m.d.ddot}${m.u.dot}${m.u.dacute}` },
+  { i: '(a#+)', o: `a${m.d.ddot}${m.u.dot}${m.u.acute}` },
+  { i: '(a#--)', o: `a${m.d.ddot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(a#-)', o: `a${m.d.ddot}${m.u.dot}${m.u.grave}` },
+  { i: '(a#)', o: `a${m.d.ddot}${m.u.dot}` },
+
+  { i: 'a~++', o: `a${m.d.tilde}${m.u.dacute}` },
+  { i: 'a~+', o: `a${m.d.tilde}${m.u.acute}` },
+  { i: 'a~--', o: `a${m.d.tilde}${m.u.dgrave}` },
+  { i: 'a~-', o: `a${m.d.tilde}${m.u.grave}` },
+  { i: 'a~', o: `a${m.d.tilde}` },
+  { i: '(a~++)', o: `a${m.d.tilde}${m.u.dot}${m.u.dacute}` },
+  { i: '(a~+)', o: `a${m.d.tilde}${m.u.dot}${m.u.acute}` },
+  { i: '(a~--)', o: `a${m.d.tilde}${m.u.dot}${m.u.dgrave}` },
+  { i: '(a~-)', o: `a${m.d.tilde}${m.u.dot}${m.u.grave}` },
+  { i: '(a~)', o: `a${m.d.tilde}${m.u.dot}` },
+
+  { i: 'a++', o: `a${m.u.dacute}` },
+  { i: 'a+', o: `a${m.u.acute}` },
+  { i: 'a--', o: `a${m.u.dgrave}` },
+  { i: 'a-', o: `a${m.u.grave}` },
+  { i: 'a', o: `a` },
+  { i: '(a++)', o: `a${m.u.dot}${m.u.dacute}` },
+  { i: '(a+)', o: `a${m.u.dot}${m.u.acute}` },
+  { i: '(a--)', o: `a${m.u.dot}${m.u.dgrave}` },
+  { i: '(a-)', o: `a${m.u.dot}${m.u.grave}` },
+  { i: '(a)', o: `a${m.u.dot}` },
+
+  { i: 'O~++', o: `o${m.d.tilde}${m.d.dot}${m.u.dacute}` },
+  { i: 'O~+', o: `o${m.d.tilde}${m.d.dot}${m.u.acute}` },
+  { i: 'O~--', o: `o${m.d.tilde}${m.d.dot}${m.u.dgrave}` },
+  { i: 'O~-', o: `o${m.d.tilde}${m.d.dot}${m.u.grave}` },
+  { i: 'O~', o: `o${m.d.tilde}${m.d.dot}` },
+  { i: '(O~++)', o: `o${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.dacute}` },
+  { i: '(O~+)', o: `o${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.acute}` },
+  { i: '(O~--)', o: `o${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(O~-)', o: `o${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.grave}` },
+  { i: '(O~)', o: `o${m.d.tilde}${m.d.dot}${m.u.dot}` },
+
+  { i: 'O++', o: `o${m.d.dot}${m.u.dacute}` },
+  { i: 'O+', o: `o${m.d.dot}${m.u.acute}` },
+  { i: 'O--', o: `o${m.d.dot}${m.u.dgrave}` },
+  { i: 'O-', o: `o${m.d.dot}${m.u.grave}` },
+  { i: 'O', o: `o${m.d.dot}` },
+  { i: '(O++)', o: `o${m.d.dot}${m.u.dot}${m.u.dacute}` },
+  { i: '(O+)', o: `o${m.d.dot}${m.u.dot}${m.u.acute}` },
+  { i: '(O--)', o: `o${m.d.dot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(O-)', o: `o${m.d.dot}${m.u.dot}${m.u.grave}` },
+  { i: '(O)', o: `o${m.d.dot}${m.u.dot}` },
+
+  { i: 'o#~++', o: `o${m.d.tilde}${m.d.ddot}${m.u.dacute}` },
+  { i: 'o#~+', o: `o${m.d.tilde}${m.d.ddot}${m.u.acute}` },
+  { i: 'o#~--', o: `o${m.d.tilde}${m.d.ddot}${m.u.dgrave}` },
+  { i: 'o#~-', o: `o${m.d.tilde}${m.d.ddot}${m.u.grave}` },
+  { i: 'o#~', o: `o${m.d.tilde}${m.d.ddot}` },
+  { i: '(o#~++)', o: `o${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.dacute}` },
+  { i: '(o#~+)', o: `o${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.acute}` },
+  { i: '(o#~--)', o: `o${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(o#~-)', o: `o${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.grave}` },
+  { i: '(o#~)', o: `o${m.d.tilde}${m.d.ddot}${m.u.dot}` },
+
+  { i: 'o#++', o: `o${m.d.ddot}${m.u.dacute}` },
+  { i: 'o#+', o: `o${m.d.ddot}${m.u.acute}` },
+  { i: 'o#--', o: `o${m.d.ddot}${m.u.dgrave}` },
+  { i: 'o#-', o: `o${m.d.ddot}${m.u.grave}` },
+  { i: 'o#', o: `o${m.d.ddot}` },
+  { i: '(o#++)', o: `o${m.d.ddot}${m.u.dot}${m.u.dacute}` },
+  { i: '(o#+)', o: `o${m.d.ddot}${m.u.dot}${m.u.acute}` },
+  { i: '(o#--)', o: `o${m.d.ddot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(o#-)', o: `o${m.d.ddot}${m.u.dot}${m.u.grave}` },
+  { i: '(o#)', o: `o${m.d.ddot}${m.u.dot}` },
+
+  { i: 'o~++', o: `o${m.d.tilde}${m.u.dacute}` },
+  { i: 'o~+', o: `o${m.d.tilde}${m.u.acute}` },
+  { i: 'o~--', o: `o${m.d.tilde}${m.u.dgrave}` },
+  { i: 'o~-', o: `o${m.d.tilde}${m.u.grave}` },
+  { i: 'o~', o: `o${m.d.tilde}` },
+  { i: '(o~++)', o: `o${m.d.tilde}${m.u.dot}${m.u.dacute}` },
+  { i: '(o~+)', o: `o${m.d.tilde}${m.u.dot}${m.u.acute}` },
+  { i: '(o~--)', o: `o${m.d.tilde}${m.u.dot}${m.u.dgrave}` },
+  { i: '(o~-)', o: `o${m.d.tilde}${m.u.dot}${m.u.grave}` },
+  { i: '(o~)', o: `o${m.d.tilde}${m.u.dot}` },
+
+  { i: 'o++', o: `o${m.u.dacute}` },
+  { i: 'o+', o: `o${m.u.acute}` },
+  { i: 'o--', o: `o${m.u.dgrave}` },
+  { i: 'o-', o: `o${m.u.grave}` },
+  { i: 'o', o: `o` },
+  { i: '(o++)', o: `o${m.u.dot}${m.u.dacute}` },
+  { i: '(o+)', o: `o${m.u.dot}${m.u.acute}` },
+  { i: '(o--)', o: `o${m.u.dot}${m.u.dgrave}` },
+  { i: '(o-)', o: `o${m.u.dot}${m.u.grave}` },
+  { i: '(o)', o: `o${m.u.dot}` },
+
+  { i: 'U~++', o: `u${m.d.tilde}${m.d.dot}${m.u.dacute}` },
+  { i: 'U~+', o: `u${m.d.tilde}${m.d.dot}${m.u.acute}` },
+  { i: 'U~--', o: `u${m.d.tilde}${m.d.dot}${m.u.dgrave}` },
+  { i: 'U~-', o: `u${m.d.tilde}${m.d.dot}${m.u.grave}` },
+  { i: 'U~', o: `u${m.d.tilde}${m.d.dot}` },
+  { i: '(U~++)', o: `u${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.dacute}` },
+  { i: '(U~+)', o: `u${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.acute}` },
+  { i: '(U~--)', o: `u${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(U~-)', o: `u${m.d.tilde}${m.d.dot}${m.u.dot}${m.u.grave}` },
+  { i: '(U~)', o: `u${m.d.tilde}${m.d.dot}${m.u.dot}` },
+
+  { i: 'U++', o: `u${m.d.dot}${m.u.dacute}` },
+  { i: 'U+', o: `u${m.d.dot}${m.u.acute}` },
+  { i: 'U--', o: `u${m.d.dot}${m.u.dgrave}` },
+  { i: 'U-', o: `u${m.d.dot}${m.u.grave}` },
+  { i: 'U', o: `u${m.d.dot}` },
+  { i: '(U++)', o: `u${m.d.dot}${m.u.dot}${m.u.dacute}` },
+  { i: '(U+)', o: `u${m.d.dot}${m.u.dot}${m.u.acute}` },
+  { i: '(U--)', o: `u${m.d.dot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(U-)', o: `u${m.d.dot}${m.u.dot}${m.u.grave}` },
+  { i: '(U)', o: `u${m.d.dot}${m.u.dot}` },
+
+  { i: 'u#~++', o: `u${m.d.tilde}${m.d.ddot}${m.u.dacute}` },
+  { i: 'u#~+', o: `u${m.d.tilde}${m.d.ddot}${m.u.acute}` },
+  { i: 'u#~--', o: `u${m.d.tilde}${m.d.ddot}${m.u.dgrave}` },
+  { i: 'u#~-', o: `u${m.d.tilde}${m.d.ddot}${m.u.grave}` },
+  { i: 'u#~', o: `u${m.d.tilde}${m.d.ddot}` },
+  { i: '(u#~++)', o: `u${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.dacute}` },
+  { i: '(u#~+)', o: `u${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.acute}` },
+  { i: '(u#~--)', o: `u${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(u#~-)', o: `u${m.d.tilde}${m.d.ddot}${m.u.dot}${m.u.grave}` },
+  { i: '(u#~)', o: `u${m.d.tilde}${m.d.ddot}${m.u.dot}` },
+
+  { i: 'u#++', o: `u${m.d.ddot}${m.u.dacute}` },
+  { i: 'u#+', o: `u${m.d.ddot}${m.u.acute}` },
+  { i: 'u#--', o: `u${m.d.ddot}${m.u.dgrave}` },
+  { i: 'u#-', o: `u${m.d.ddot}${m.u.grave}` },
+  { i: 'u#', o: `u${m.d.ddot}` },
+  { i: '(u#++)', o: `u${m.d.ddot}${m.u.dot}${m.u.dacute}` },
+  { i: '(u#+)', o: `u${m.d.ddot}${m.u.dot}${m.u.acute}` },
+  { i: '(u#--)', o: `u${m.d.ddot}${m.u.dot}${m.u.dgrave}` },
+  { i: '(u#-)', o: `u${m.d.ddot}${m.u.dot}${m.u.grave}` },
+  { i: '(u#)', o: `u${m.d.ddot}${m.u.dot}` },
+
+  { i: 'u~++', o: `u${m.d.tilde}${m.u.dacute}` },
+  { i: 'u~+', o: `u${m.d.tilde}${m.u.acute}` },
+  { i: 'u~--', o: `u${m.d.tilde}${m.u.dgrave}` },
+  { i: 'u~-', o: `u${m.d.tilde}${m.u.grave}` },
+  { i: 'u~', o: `u${m.d.tilde}` },
+  { i: '(u~++)', o: `u${m.d.tilde}${m.u.dot}${m.u.dacute}` },
+  { i: '(u~+)', o: `u${m.d.tilde}${m.u.dot}${m.u.acute}` },
+  { i: '(u~--)', o: `u${m.d.tilde}${m.u.dot}${m.u.dgrave}` },
+  { i: '(u~-)', o: `u${m.d.tilde}${m.u.dot}${m.u.grave}` },
+  { i: '(u~)', o: `u${m.d.tilde}${m.u.dot}` },
+
+  { i: 'u++', o: `u${m.u.dacute}` },
+  { i: 'u+', o: `u${m.u.acute}` },
+  { i: 'u--', o: `u${m.u.dgrave}` },
+  { i: 'u-', o: `u${m.u.grave}` },
+  { i: 'u', o: `u` },
+  { i: '(u++)', o: `u${m.u.dot}${m.u.dacute}` },
+  { i: '(u+)', o: `u${m.u.dot}${m.u.acute}` },
+  { i: '(u--)', o: `u${m.u.dot}${m.u.dgrave}` },
+  { i: '(u-)', o: `u${m.u.dot}${m.u.grave}` },
+  { i: '(u)', o: `u${m.u.dot}` },
+
+  { i: 'M', o: `m${m.u.dot}` },
+  { i: 'm', o: `m` },
+  { i: 'N', o: `n${m.d.dot}` },
+  { i: 'n', o: `n` },
+  { i: 'q', o: `q` },
+  { i: 'Q', o: `q${m.u.dot}` },
+  { i: 'g?', o: `g${m.u.grave}` },
+  { i: 'g.', o: `g${m.u.tilde}` },
+  { i: 'g@', o: `g${m.u.up}` },
+  { i: 'g', o: `g` },
+  { i: '\'', o: `'` },
+  { i: '"', o: `"` },
+  { i: 'd!', o: `d${m.d.grave}` },
+  { i: 'd*', o: `d${m.d.tilde}` },
+  { i: 'd+', o: `d${m.d.dot}` },
+  { i: 'd.', o: `d${m.d.ddot}` },
+  { i: 'd@', o: `d${m.d.down}` },
+  { i: 'd', o: `d` },
+  { i: 'b?', o: `b${m.d.acute}` },
+  { i: 'b!', o: `b${m.d.grave}` },
+  { i: 'b.', o: `b${m.d.ddot}` },
+  { i: 'b@', o: `b${m.d.down}` },
+  { i: 'b', o: `b` },
+  { i: 'p!', o: `p${m.u.acute}` },
+  { i: 'p*', o: `p${m.u.tilde}` },
+  { i: 'p.', o: `p${m.u.ddot}` },
+  { i: 'p@', o: `p${m.u.up}` },
+  { i: 'p', o: `p` },
+  { i: 'T', o: `t${m.d.dot}` },
+  { i: 't!', o: `t${m.d.grave}` },
+  { i: 't*', o: `t${m.d.tilde}` },
+  { i: 't.', o: `t${m.d.ddot}` },
+  { i: 't@', o: `t${m.d.down}` },
+  { i: 't', o: `t` },
+  { i: 'k!', o: `k${m.d.grave}` },
+  { i: 'k*', o: `k${m.d.tilde}` },
+  { i: 'K!', o: `k${m.d.dot}${m.d.grave}` },
+  { i: 'K', o: `k${m.d.dot}` },
+  { i: 'k.', o: `k${m.d.tilde}` },
+  { i: 'k@', o: `k${m.d.down}` },
+  { i: 'k', o: `k` },
+  { i: 'H', o: `h${m.d.dot}` },
+  { i: 'h', o: `h` },
+  { i: 'J', o: `ȷ̈` },
+  { i: 'j', o: `j` },
+  { i: 'S!', o: `s${m.d.dot}${m.u.acute}` },
+  { i: 's!', o: `s${m.u.acute}` },
+  { i: 'S', o: `s${m.d.dot}` },
+  { i: 's@', o: `s${m.d.down}` },
+  { i: 's', o: `s` },
+  { i: 'F', o: `f${m.d.dot}` },
+  { i: 'f', o: `f` },
+  { i: 'V', o: `v${m.d.dot}` },
+  { i: 'v', o: `v` },
+  { i: 'z', o: `z` },
+  { i: 'Z', o: `z${m.d.dot}` },
+  { i: 'C', o: `c${m.d.dot}` },
+  { i: 'c', o: `c` },
+  { i: 'L', o: `l${m.d.dot}` },
+  { i: 'l*', o: `l${m.d.tilde}` },
+  { i: 'l', o: `l` },
+  { i: 'R', o: `r${m.d.dot}` },
+  { i: 'r', o: `r` },
+  { i: 'x!', o: `x${m.d.acute}` },
+  { i: 'X', o: `x${m.d.dot}` },
+  { i: 'x@', o: `x${m.d.down}` },
+  { i: 'x', o: `x` },
+  { i: 'w', o: `w` },
+  { i: 'W', o: `w${m.d.dot}` },
+  { i: 'y', o: `y` },
+  { i: 'Y', o: `y${m.u.dot}` },
+  { i: '~', o: `ɔ` },
+  { i: "'", o: '\'' },
+  { i: '=', o: 'ƨ' }
+]
+
+let VOWELS = [
+  { i: `i${m.u.tilde}`, o: 'i~' },
+  { i: `ɪ${m.u.tilde}`, o: 'I~' },
+  { i: `ʏ${m.u.tilde}`, o: 'i#~' },
+  { i: `ɨ${m.u.tilde}`, o: 'i#~' },
+  { i: `y${m.u.tilde}`, o: 'i#~' },
+
+  { i: `e${m.u.tilde}`, o: 'e~' },
+  { i: `ɛ${m.u.tilde}`, o: 'E~' },
+  { i: `ε${m.u.tilde}`, o: 'E~' },
+  { i: `œ${m.u.tilde}`, o: 'e#~' },
+  { i: `ɶ${m.u.tilde}`, o: 'e#~' },
+
+  { i: `a${m.u.tilde}`, o: 'a~' },
+  { i: `ɐ${m.u.tilde}`, o: 'a~' },
+  { i: `ɑ${m.u.tilde}`, o: 'a~' },
+  { i: `ɒ${m.u.tilde}`, o: 'a~' },
+  { i: `ä${m.u.tilde}`, o: 'a~' },
+  { i: `æ${m.u.tilde}`, o: 'A~' },
+  { i: `æ${m.u.tilde}`, o: 'A~' },
+  { i: `ø${m.u.tilde}`, o: 'a#~' },
+
+  { i: `o${m.u.tilde}`, o: 'o~' },
+  { i: `ɜ${m.u.tilde}`, o: 'O~' },
+  { i: `ɵ${m.u.tilde}`, o: 'O~' },
+  { i: `ʊ${m.u.tilde}`, o: 'O~' },
+  { i: `ɤ${m.u.tilde}`, o: 'O~' },
+  { i: `ɯ${m.u.tilde}`, o: 'O~' },
+  { i: `ɔ${m.u.tilde}`, o: 'o#~' },
+
+  { i: `u${m.u.tilde}`, o: 'u~' },
+  { i: `ʉ${m.u.tilde}`, o: 'u~' },
+  { i: `ʌ${m.u.tilde}`, o: 'U~' },
+  { i: `ə${m.u.tilde}`, o: 'U~' },
+  { i: `ɞ${m.u.tilde}`, o: 'U~' },
+  { i: `ɹ${m.u.tilde}`, o: 'u#~' },
+
+  { i: 'ũ', o: 'u~' },
+  { i: 'ĩ', o: 'i~' },
+  { i: 'ẽ', o: 'e~' },
+
+  { i: 'i', o: 'i' },
+  { i: 'ɪ', o: 'I' },
+  { i: 'ɘ', o: 'I' },
+  { i: 'ʏ', o: 'i#' },
+  { i: 'ɨ', o: 'i#' },
+  { i: 'y', o: 'i#' },
+
+  { i: 'e', o: 'e' },
+  { i: 'ɛ', o: 'E' },
+  { i: 'ε', o: 'E' },
+  { i: 'œ', o: 'e#' },
+  { i: 'ɶ', o: 'e#' },
+
+  { i: 'a', o: 'a' },
+  { i: `ɐ`, o: 'a' },
+  { i: 'ɑ', o: 'a' },
+  { i: 'ɒ', o: 'a' },
+  { i: 'ä', o: 'a' },
+  { i: 'æ', o: 'A' },
+  { i: 'æ', o: 'A' },
+  { i: 'ø', o: 'a#' },
+
+  { i: 'o', o: 'o' },
+  { i: 'ɜ', o: 'O' },
+  { i: 'ɵ', o: 'O' },
+  { i: 'ʊ', o: 'O' },
+  { i: 'ɤ', o: 'O' },
+  { i: 'ɯ', o: 'O' },
+  { i: 'ɔ', o: 'o#' },
+
+  { i: 'u', o: 'u' },
+  { i: 'ʉ', o: 'u' },
+  { i: 'ʌ', o: 'U' },
+  { i: 'ə', o: 'U' },
+  { i: 'ǝ', o: 'U' },
+  { i: 'ɞ', o: 'U' },
+  { i: 'ɹ', o: 'u#' },
+]
+
+const TONES = [[m.u.dgrave, '__'], [m.u.grave, '_'], [m.u.acute, '^'], [m.u.dacute, '^^'], [m.u.down, '_^'], [m.u.up, '^_']]
+const NEWVOWELS = []
+
+TONES.forEach(tone => {
+  VOWELS.forEach(({ i, o }) => {
+    let out = tone[1].split('').map(t => `${o}${t}`).join('')
+    NEWVOWELS.push({ i: `${i}${tone[0]}`, o: out })
+  })
+})
+
+VOWELS.forEach(vowel => NEWVOWELS.push(vowel))
+
+const IPA_TO_ASCII = [
+  ...NEWVOWELS,
+  { i: 'b', o: 'b' },
+  { i: 'ɓ', o: 'b?' },
+  { i: 'ʙ', o: 'b!' },
+  { i: 'd', o: 'd' },
+  { i: 'ɖ', o: 'd+' },
+  { i: 'ǂ', o: 'd*' },
+  { i: 'θ', o: 'c' },
+  { i: 'ð', o: 'C' },
+  { i: 'f', o: 'f' },
+  { i: 'ɸ', o: 'F' },
+  { i: 'g', o: 'g' },
+  { i: 'ɡ', o: 'g' },
+  { i: 'ɢ', o: 'g' },
+  { i: 'ɠ', o: 'g?' },
+  { i: 'ʛ', o: 'g?' },
+  { i: 'ɟ', o: 'gy' },
+  { i: 'ʄ', o: 'g?y' },
+  { i: 'h', o: 'h' },
+  { i: 'ħ', o: 'H' },
+  { i: 'ɦ', o: 'hh' },
+  { i: 'x', o: 'H' },
+  { i: 'χ', o: 'H' },
+  { i: 'ç', o: 'hy' },
+  { i: 'c', o: 'ky' },
+  { i: 'ʐ', o: 'J' },
+  { i: 'ʒ', o: 'j' },
+  { i: 'ɮ', o: 'Z' },
+  { i: 'ʑ', o: 'jy' },
+  { i: 'k\'', o: 'k!' },
+  { i: 'k͈', o: 'k@' },
+  { i: 'k̚', o: 'k.' },
+  { i: 'k', o: 'k' },
+  { i: 'ǃ', o: 'k*' },
+  { i: 'q\'', o: 'K!' },
+  { i: 'q', o: 'K' },
+  { i: 'm', o: 'm' },
+  { i: 'n', o: 'n' },
+  { i: 'ɳ', o: 'N' },
+  { i: 'ŋ', o: 'q' },
+  { i: 'ɴ', o: 'q' },
+  { i: 'ɲ', o: 'ny' },
+  { i: 'l', o: 'l' },
+  { i: 'ɭ', o: 'L' },
+  { i: 'ʎ', o: 'ly' },
+  { i: 'ǁ', o: 'l*' },
+  { i: 'p͈', o: 'p@' },
+  { i: 'p̚', o: 'p.' },
+  { i: 'p', o: 'p' },
+  { i: 'p\'', o: 'p!' },
+  { i: 'ʘ', o: 'p*' },
+  { i: 'r', o: 'r' },
+  { i: 'ɾ', o: 'r' },
+  { i: 'ɽ', o: 'R' },
+  { i: 'ɣ', o: 'Q' },
+  { i: 'ʁ', o: 'Q' },
+  { i: 'ʀ', o: 'QQ' },
+  { i: 's͈', o: 's@' },
+  { i: 'ɬ', o: 'S' },
+  { i: 's', o: 's' },
+  { i: 't̚', o: 't.' },
+  { i: 't͈', o: 't@' },
+  { i: 't\'', o: 't!' },
+  { i: 't', o: 't' },
+  { i: 'ʈ', o: 'T' },
+  { i: 'ǀ', o: 't*' },
+  { i: 'v', o: 'v' },
+  { i: 'ʋ', o: 'V' },
+  { i: 'ⱱ', o: 'V' },
+  { i: 'β', o: 'V' },
+  { i: 'w', o: 'w' },
+  { i: 'ʍ', o: 'wh' },
+  { i: 'ɰ', o: 'W' },
+  { i: 'ʃ', o: 'x' },
+  { i: 'ʂ', o: 'X' },
+  { i: 'ɕ', o: 'xy' },
+  { i: 'j', o: 'y' },
+  { i: 'ʝ', o: 'y' },
+  { i: 'ɥ', o: 'yw' },
+  { i: 'z', o: 'z' },
+  { i: 'ʔ', o: '\'' },
+  { i: 'ʲ', o: 'Y' },
+  { i: 'ʼ', o: '\'' },
+  { i: 'ʕ', o: '~' },
+  { i: 'ʰ', o: 'h' },
+  { i: 'ʱ', o: 'hh' },
+  { i: 'ʱ', o: 'hh' },
+  { i: 'ˀ', o: '\'' },
+  { i: `${m.d.tilde}`, o: `M` },
+  { i: 'ʷ', o: 'W' },
+  { i: '\u031a', o: '.' },
+  { i: '\u031d', o: '' },
+  { i: '\u031e', o: '' },
+  { i: '\u0320', o: '' },
+  { i: '\u0326', o: '' },
+  { i: '\u032a', o: '' },
+  { i: '\u0339', o: '' },
+  { i: '\u0348', o: '' },
+  { i: '\u0348', o: '' },
+  { i: '\u035c', o: '' },
+  { i: '\u0361', o: '' },
+  { i: '-', o: '' },
+  { i: '˨', o: '_' },
+  { i: '˦', o: '^' },
+  { i: '˥', o: '^' },
+  { i: '˧', o: '' },
+  { i: '\u0306', o: '' }
+]
+
+const IPA_DIPHTHONGS = [
+  { o: 'xʲ' },
+  { o: 'xʷ' },
+  { o: 'kʲʰ' },
+  { o: 'kʼʲ' },
+  { o: 'kʷʰ' },
+  { o: 'kʼʷ' },
+  { o: 'pʰ' },
+  { o: 'qʰ' },
+  { o: 'qʷʰ' },
+  { o: 'qʼʷ' },
+  { o: 'tʰ' },
+  { o: 't͡ɬʰ' },
+  { o: 't͡ɬʼ' },
+  { o: 't͡sʰ' },
+  { o: 't͡sʼ' },
+  { o: 'χʷ' },
+  { o: 'dz' },
+  { o: 'ts' },
+  { o: 'dʑ' },
+  { o: 'dz' },
+  { o: 'bʲ' },
+  { o: 'dʲ' },
+  { o: 'fʲ' },
+  { o: 'ɡʲ' },
+  { o: 'ɣʲ' },
+  { o: 'kʲ' },
+  { o: 'lʲ' },
+  { o: 'mʲ' },
+  { o: 'nʲ' },
+  { o: 'pʲ' },
+  { o: 'rʲ' },
+  { o: 'sʲ' },
+  { o: 'tʲ' },
+  { o: 'tsʲ' },
+  { o: 'tɕ' },
+  { o: 'xʲ' },
+  { o: 'vʲ' },
+  { o: 'zʲ' },
+]
+      const SYMBOL = [
+        { tick: 23, text: "i", code: "\u0470", name: 'I sound' },
+        { tick: 25, text: "a", code: "\u0500", name: 'A sound' },
+        { tick: 27, text: "u", code: "\u03f0", name: 'U sound with stress' },
+
+        { tick: 24, text: "e", code: "\u0410", name: 'E sound' },
+        { tick: 29, text: "E", code: "\u0450", name: 'Short e' },
+        { tick: 32, text: "U", code: "\u04a0", name: 'Short u' },
+
+        { tick: 28, text: "I", code: "\u03d0", name: 'Short i' },
+        { tick: 26, text: "o", code: "\u04e0", name: 'O sound' },
+        { tick: 30, text: "A", code: "\u03b0", name: 'Short a' },
+
+        { tick: 31, text: "O", code: "\u04c0", name: 'Short o' },
+        { text: "o#", code: "\u0390", name: 'German o' },
+        { text: "u#", code: "\u0430", name: 'English r' },
+
+        { text: "e#", code: "\u0451", name: 'Danish oe' },
+        { text: "i#", code: "\u03d1", name: 'German i' },
+        { text: "a#", code: "\u0501", name: 'German e sound' },
+
+        { tick: 1, text: "m", code: "\u0100", name: 'M sound' },
+        { tick: 2, text: "n", code: "\u0140", name: 'N sound' },
+        { tick: 3, text: "q", code: "\u0160", name: 'Ng sound' },
+        { tick: 4, text: "g", code: "\u0130", name: 'G sound' },
+        { tick: 5, text: "d", code: "\u0060", name: 'D sound' },
+        { tick: 6, text: "b", code: "\u0040", name: 'B sound' },
+        { tick: 7, text: "p", code: "\u0030", name: 'P sound' },
+        { tick: 8, text: "t", code: "\u00d0", name: 'T sound' },
+        { tick: 9, text: "k", code: "\u0050", name: 'K sound' },
+
+        { tick: 10, text: "h", code: "\u0120", name: 'H sound' },
+        { tick: 15, text: "l", code: "\u0170", name: 'L sound' },
+        { tick: 21, text: "w", code: "\u0110", name: 'W sound' },
+
+        { tick: 12, text: "f", code: "\u00c0", name: 'f sound' },
+        { tick: 11, text: "s", code: "\u0070", name: 'S sound' },
+        { tick: 19, text: "C", code: "\u00b0", name: 'Voiced th sound' },
+
+        { tick: 14, text: "z", code: "\u0090", name: 'Z sound' },
+        { tick: 13, text: "v", code: "\u00f0", name: 'V sound' },
+        { tick: 22, text: "y", code: "\u0180", name: 'Y sound' },
+
+        { tick: 17, text: "x", code: "\u0190", name: 'Sh sound' },
+        { text: "r", code: "\u00e0", name: 'Single rolling r sound' },
+
+        { tick: 18, text: "c", code: "\u0080", name: 'Unvoiced th sound' },
+        { tick: 20, text: "j", code: "\u0150", name: 'J sound' },
+        { tick: 16, text: "Q", code: "\u01a0", name: 'French r sound' },
+
+        { text: "S", code: "\u0072", name: 'Navajo s sound' },
+        { text: "Z", code: "\u0092", name: 'Zulu dl sound' },
+        { text: "H", code: "\u0122", name: 'Arabic voiced h sound' },
+        { text: "~", code: "\u01a2", name: 'Arabic pharyngealization' },
+        { text: "Y", code: "\u0182", name: 'Arabic pharyngealization' },
+        { text: "W", code: "\u0112", name: 'Arabic pharyngealization' },
+        { text: ".", code: "\u01b2", name: 'Arabic pharyngealization' },
+        { text: "M", code: "\u0102", name: 'Nasalization' },
+
+        { text: "'", code: "\u01b0", name: 'Lack of sound, glottal stop' },
+      ]
+      SYMBOL.forEach(({ text, code }) => {
+        const ipa = IPA_TO_ASCII.filter(x => x.o === text)
+        if (!ipa.length) return
+
+        let c = document.querySelector('#content')
+        let d = document.createElement('div')
+        d.classList.add('row')
+        d.innerHTML = `
+        <span class='hanakana'>${code}</span>
+        <span class='def'>
+          <span class='ascii'>${text}</span>
+          <span class='description'>/${ipa.map(x => x.i).join(' ~ ')}/</span>
+        </span>
+        `
+        c.appendChild(d)
+      })
+
+      window.DONE = true
+    </script>
+  </body>
+</html>
